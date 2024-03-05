@@ -12,8 +12,7 @@ import SwiftUI
 struct TextEnterView: View {
     @State public var textStr : String = String()
     @State public var key : String = String()
-    @State var textSubmitted = false
-    @State var keySubmitted = false
+    @State var encrypt = false
     
     var body: some View {
         
@@ -23,12 +22,19 @@ struct TextEnterView: View {
                     "Enter what you would like to encrypt: ",
                     text: $textStr
                 )
+                .keyboardType(.default)
                 .disableAutocorrection(true)
                 .textFieldStyle(.roundedBorder)
                 .padding()
-                .onSubmit(of: .text) {
-                    textSubmitted = true
+                .onChange(of: textStr) {
+                    if textStr.count > 255 {
+                        textStr = String(textStr.prefix(255))
+                    }
                 }
+                
+                Text("Number of characters \(textStr.count)")
+                    .foregroundStyle(.gray)
+        
                 
                 TextField (
                     "Enter the number of the key to encrypt with",
@@ -38,11 +44,18 @@ struct TextEnterView: View {
                 .disableAutocorrection(true)
                 .textFieldStyle(.roundedBorder)
                 .padding()
-                .onSubmit(of: .text) {
-                    keySubmitted = true
+                .onChange(of: key) { // Limit number of characters of key to 2
+                    if key.count > 2 {
+                        key = String(key.prefix(2))
+                    }
                 }
                 
-                .navigationDestination(isPresented: ($keySubmitted)) {
+                Button("Encrpt!") {
+                    encrypt = true
+                }
+                .buttonStyle(.bordered)
+                
+                .navigationDestination(isPresented: ($encrypt)) {
                     ListCiphersView(userInput: textStr, userKey: key)
                 }
             }
