@@ -50,7 +50,7 @@ struct TextEnterView: View {
                     }
                 }
                 
-                Button("Encrpt!") {
+                Button("Encrypt!") {
                     encrypt = true
                 }
                 .buttonStyle(.bordered)
@@ -59,9 +59,10 @@ struct TextEnterView: View {
                     ListCiphersView(userInput: textStr, userKey: key)
                 }
             }
+            .containerRelativeFrame([.horizontal, .vertical])
+            .background(Color(red: (252/255), green: (251/255), blue: (220/255)))
+            //.background(Gradient(colors: [.teal, .cyan, .green]).opacity(0.6))
         }
-        
-        
     }
 }
 

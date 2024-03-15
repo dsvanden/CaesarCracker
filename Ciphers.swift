@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 struct Ciphers: Identifiable {
     let id = UUID()
